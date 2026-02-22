@@ -20,9 +20,6 @@ logger = logging.getLogger(__name__)
 # -------------------------
 # Load Environment Variables
 # -------------------------
-# -------------------------
-# Load Environment Variables
-# -------------------------
 
 load_dotenv()
 
@@ -176,7 +173,7 @@ RESUME:
     headers = {
     "Authorization": f"Bearer {OPENROUTER_API_KEY}",
     "Content-Type": "application/json",
-    "HTTP-Referer": "https://portfolio-assist-backend.onrender.com",
+    "HTTP-Referer": "https://portfolio-aiassist.netlify.app",
     "X-Title": "Sujay Portfolio AI"
 }
 
