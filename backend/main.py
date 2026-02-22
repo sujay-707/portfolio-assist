@@ -29,16 +29,11 @@ load_dotenv()
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 MONGO_URL = os.getenv("MONGO_URL")
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-
-# Debug log (temporary)
-if OPENROUTER_API_KEY:
-    logger.info(f"Loaded OpenRouter Key: {OPENROUTER_API_KEY[:10]}********")
-else:
+if not OPENROUTER_API_KEY:
     logger.warning("⚠️ OPENROUTER_API_KEY not set")
 
 if not MONGO_URL:
     logger.warning("⚠️ MONGO_URL not set")
-
 # -------------------------
 # FastAPI App
 # -------------------------
