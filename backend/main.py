@@ -92,9 +92,8 @@ class ChatResponse(BaseModel):
 # -------------------------
 # Resume Formatter
 # -------------------------
-
 async def build_resume_text():
-    if not db:
+    if db is None:
         return "Database not connected."
 
     resume = await db.resumes.find_one({})
