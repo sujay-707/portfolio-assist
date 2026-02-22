@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from motor.motor_asyncio import AsyncIOMotorClient
 
 # -------------------------
-# Logging Setup (MOVE THIS UP)
+# Logging Setup
 # -------------------------
 
 logging.basicConfig(level=logging.INFO)
@@ -28,10 +28,11 @@ MONGO_URL = os.getenv("MONGO_URL")
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 if not OPENROUTER_API_KEY:
-    logger.warning("OPENROUTER_API_KEY not set")
+    logger.warning("⚠️ OPENROUTER_API_KEY not set")
 
 if not MONGO_URL:
-    logger.warning("MONGO_URL not set")
+    logger.warning("⚠️ MONGO_URL not set")
+
 # -------------------------
 # FastAPI App
 # -------------------------
@@ -40,29 +41,38 @@ app = FastAPI(title="Sujay Portfolio AI API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["*"],  # allow frontend in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # -------------------------
-# MongoDB Setup
+# MongoDB Setup (SAFE VERSION)
 # -------------------------
 
-client = AsyncIOMotorClient(MONGO_URL)
-db = client.portfolio_db
+client = None
+db = None
 
+if MONGO_URL:
+    try:
+        client = AsyncIOMotorClient(MONGO_URL)
+        db = client.portfolio_db
+        logger.info("Mongo client initialized")
+    except Exception as e:
+        logger.error("Mongo initialization failed")
+        logger.error(str(e))
 
 @app.on_event("startup")
 async def startup_db_check():
-    try:
-        await client.admin.command("ping")
-        logger.info("✅ MongoDB Connected Successfully")
-    except Exception as e:
-        logger.error("❌ MongoDB Connection Failed", exc_info=True)
-        raise e
-
+    if client:
+        try:
+            await client.admin.command("ping")
+            logger.info("✅ MongoDB Connected Successfully")
+        except Exception as e:
+            logger.error("❌ MongoDB Connection Failed")
+            logger.error(str(e))
+            logger.warning("⚠️ Server will continue without DB")
 
 # -------------------------
 # Pydantic Models
@@ -72,21 +82,21 @@ class Message(BaseModel):
     role: str
     content: str
 
-
 class ChatRequest(BaseModel):
     message: str
     history: List[Message] = Field(default_factory=list)
 
-
 class ChatResponse(BaseModel):
     reply: str
-
 
 # -------------------------
 # Resume Formatter
 # -------------------------
 
 async def build_resume_text():
+    if not db:
+        return "Database not connected."
+
     resume = await db.resumes.find_one({})
 
     if not resume:
@@ -127,7 +137,6 @@ Education:
 
     return text.strip()
 
-
 # -------------------------
 # Chat Endpoint
 # -------------------------
@@ -135,21 +144,17 @@ Education:
 @app.post("/chat", response_model=ChatResponse)
 async def chat_with_ai(request: ChatRequest):
 
+    if not OPENROUTER_API_KEY:
+        raise HTTPException(status_code=500, detail="OpenRouter API key missing")
+
     resume_text = await build_resume_text()
 
     system_prompt = f"""
 You are an AI assistant for Sujay M Mundaragi's portfolio.
 
-You must answer ONLY using the resume below.
-
-If the answer is not explicitly found in the resume,
-reply exactly with:
+Answer ONLY using the resume below.
+If information is not present, say:
 "I’m sorry, I don’t have that information about Sujay's experience."
-
-Do not guess.
-Do not assume.
-Do not fabricate.
-Do not add external knowledge.
 
 RESUME:
 {resume_text}
@@ -158,15 +163,9 @@ RESUME:
     messages = [{"role": "system", "content": system_prompt}]
 
     for msg in request.history:
-        messages.append({
-            "role": msg.role,
-            "content": msg.content
-        })
+        messages.append({"role": msg.role, "content": msg.content})
 
-    messages.append({
-        "role": "user",
-        "content": request.message
-    })
+    messages.append({"role": "user", "content": request.message})
 
     payload = {
         "model": "meta-llama/llama-3-8b-instruct",
@@ -189,28 +188,20 @@ RESUME:
 
         response.raise_for_status()
         data = response.json()
-
         reply = data["choices"][0]["message"]["content"]
 
-        # Save chat history
-        await db.chats.insert_one({
-            "user_message": request.message,
-            "ai_reply": reply,
-            "timestamp": datetime.utcnow()
-        })
+        if db:
+            await db.chats.insert_one({
+                "user_message": request.message,
+                "ai_reply": reply,
+                "timestamp": datetime.utcnow()
+            })
 
         return {"reply": reply}
 
-    except httpx.HTTPStatusError as e:
-        logger.error("OpenRouter Error", exc_info=True)
-        raise HTTPException(status_code=500, detail=e.response.text)
-
     except Exception as e:
-        logger.error("Unexpected Error", exc_info=True)
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-
+        logger.error(str(e))
+        raise HTTPException(status_code=500, detail="AI request failed")
 
 # -------------------------
 # Health Check
