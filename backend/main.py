@@ -20,6 +20,9 @@ logger = logging.getLogger(__name__)
 # -------------------------
 # Load Environment Variables
 # -------------------------
+# -------------------------
+# Load Environment Variables
+# -------------------------
 
 load_dotenv()
 
@@ -27,7 +30,10 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 MONGO_URL = os.getenv("MONGO_URL")
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
-if not OPENROUTER_API_KEY:
+# Debug log (temporary)
+if OPENROUTER_API_KEY:
+    logger.info(f"Loaded OpenRouter Key: {OPENROUTER_API_KEY[:10]}********")
+else:
     logger.warning("⚠️ OPENROUTER_API_KEY not set")
 
 if not MONGO_URL:
@@ -167,15 +173,17 @@ RESUME:
     messages.append({"role": "user", "content": request.message})
 
     payload = {
-        "model": "openai/gpt-3.5-turbo",
+        "model": "meta-llama/llama-3-8b-instruct",
         "messages": messages,
         "temperature": 0.2,
     }
 
     headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-        "Content-Type": "application/json"
-    }
+    "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+    "Content-Type": "application/json",
+    "HTTP-Referer": "https://portfolio-assist-backend.onrender.com",
+    "X-Title": "Sujay Portfolio AI"
+}
 
     try:
         async with httpx.AsyncClient(timeout=60.0) as client_http:
@@ -190,7 +198,7 @@ RESUME:
 
         reply = data["choices"][0]["message"]["content"]
 
-        if db:
+        if db is not None:
             await db.chats.insert_one({
                 "user_message": request.message,
                 "ai_reply": reply,
