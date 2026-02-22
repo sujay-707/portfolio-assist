@@ -41,14 +41,14 @@ app = FastAPI(title="Sujay Portfolio AI API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # allow frontend in production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # -------------------------
-# MongoDB Setup (SAFE VERSION)
+# MongoDB Setup
 # -------------------------
 
 client = None
@@ -72,7 +72,6 @@ async def startup_db_check():
         except Exception as e:
             logger.error("❌ MongoDB Connection Failed")
             logger.error(str(e))
-            logger.warning("⚠️ Server will continue without DB")
 
 # -------------------------
 # Pydantic Models
@@ -90,8 +89,9 @@ class ChatResponse(BaseModel):
     reply: str
 
 # -------------------------
-# Resume Formatter
+# Resume Builder
 # -------------------------
+
 async def build_resume_text():
     if db is None:
         return "Database not connected."
@@ -187,6 +187,7 @@ RESUME:
 
         response.raise_for_status()
         data = response.json()
+
         reply = data["choices"][0]["message"]["content"]
 
         if db:
@@ -198,12 +199,23 @@ RESUME:
 
         return {"reply": reply}
 
-    except Exception as e:
-        logger.error(str(e))
+    except httpx.HTTPStatusError as e:
+        logger.error("OpenRouter HTTP error")
+        logger.error(e.response.text)
         raise HTTPException(status_code=500, detail=e.response.text)
+
+    except Exception as e:
+        logger.error("Unexpected error")
+        logger.error(str(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
 # -------------------------
 # Health Check
 # -------------------------
+
+@app.get("/")
+async def root():
+    return {"message": "Portfolio AI Backend is running 🚀"}
 
 @app.get("/health")
 async def health_check():
