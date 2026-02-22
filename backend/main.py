@@ -167,7 +167,7 @@ RESUME:
     messages.append({"role": "user", "content": request.message})
 
     payload = {
-        "model": "meta-llama/llama-3-8b-instruct",
+        "model": "openai/gpt-3.5-turbo",
         "messages": messages,
         "temperature": 0.2,
     }
@@ -200,8 +200,7 @@ RESUME:
 
     except Exception as e:
         logger.error(str(e))
-        raise HTTPException(status_code=500, detail=str(e))
-
+        raise HTTPException(status_code=500, detail=e.response.text)
 # -------------------------
 # Health Check
 # -------------------------
