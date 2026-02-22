@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import { Terminal, Code, User, Send, ChevronRight, Github, Linkedin, Mail, ExternalLink } from 'lucide-react';
+// import React, { useState } from 'react';
+import { Code, User, ChevronRight, Github, Linkedin, ExternalLink } from 'lucide-react';
 import { Chat } from './components/Chat';
 
 function App() {
-  const [activeSection, setActiveSection] = useState('home');
-
   const projects = [
     {
       title: "Wanderlust",
