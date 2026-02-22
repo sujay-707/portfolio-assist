@@ -1,0 +1,25 @@
+Sujay M Mundaragi
+MCA Student | Full Stack Developer
+Email: sujaymundaragi7@gmail.com
+Phone: +91 8762338707
+GitHub: https://github.com/sujay-707
+LinkedIn: https://www.linkedin.com/in/sujay-mundaragi707
+
+Education:
+- MCA – New Horizon College of Engineering, Bangalore (CGPA: 9.03)
+- BCA – KLE PC Jabin Science College, Hubli (First Class with Distinction)
+
+Skills:
+- Languages: Java, HTML, CSS, JavaScript
+- Frameworks / Libraries: React, Express.js
+- Database: MongoDB
+- Tools: Git, GitHub, VS Code, Postman
+- Responsive Design: Bootstrap, Flexbox, CSS Grid
+
+Projects:
+1. Wanderlust: Full Stack Hotel Listing Application (HTML, CSS, Bootstrap, Node.js, Express.js, EJS, MongoDB)
+2. CineLock: React Movie Ticket Booking UI
+3. Simon Game: JavaScript Memory Game
+4. Weather App: React Weather Application
+
+Passion: Building scalable web applications and clean, user-friendly interfaces.
