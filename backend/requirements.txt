@@ -1,6 +1,7 @@
 fastapi
-uvicorn
-requests
+uvicorn[standard]
 python-dotenv
+requests
 httpx
 motor
+pymongo
