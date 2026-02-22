@@ -11,34 +11,27 @@ from dotenv import load_dotenv
 from motor.motor_asyncio import AsyncIOMotorClient
 
 # -------------------------
+# Logging Setup (MOVE THIS UP)
+# -------------------------
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# -------------------------
 # Load Environment Variables
 # -------------------------
 
-from pathlib import Path
-from dotenv import load_dotenv
-
-env_path = Path(__file__).resolve().parent / ".env"
-load_dotenv(dotenv_path=env_path)
-
-print("Loaded MONGO_URL:", os.getenv("MONGO_URL"))
+load_dotenv()
 
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 MONGO_URL = os.getenv("MONGO_URL")
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 if not OPENROUTER_API_KEY:
-    raise Exception("OPENROUTER_API_KEY not found in .env")
+    logger.warning("OPENROUTER_API_KEY not set")
 
 if not MONGO_URL:
-    raise Exception("MONGO_URL not found in .env")
-
-# -------------------------
-# Logging Setup
-# -------------------------
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
+    logger.warning("MONGO_URL not set")
 # -------------------------
 # FastAPI App
 # -------------------------
