@@ -1,79 +1,62 @@
-🚀 AI Resume Portfolio Assistant
+# 🚀 AI Resume Portfolio Assistant
 
 A full-stack AI-powered portfolio website built using React, FastAPI, MongoDB, and OpenRouter API.
 
-This project includes a modern portfolio website with an AI assistant that answers questions strictly based on resume data stored in the database.
+This project features a modern portfolio website integrated with an AI assistant that answers questions strictly based on resume data stored in the database.
 
-🌟 Features
+---
 
-🤖 AI Chat Assistant (Resume-based responses only)
+## 🌟 Features
 
-💾 MongoDB database integration
+- 🤖 AI Chat Assistant (Resume-based responses only)
+- 💾 MongoDB database integration
+- 💬 Chat history storage with timestamps
+- 🎨 Modern and responsive UI
+- ⚡ FastAPI backend
+- 🔐 Secure API key management using environment variables
+- 🌐 Live project links
+- 📱 Fully responsive design
 
-💬 Chat history storage with timestamps
+---
 
-🎨 Modern and responsive UI
+## 🛠 Tech Stack
 
-⚡ FastAPI backend
+### 🔹 Frontend
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Axios
+- Lucide Icons
 
-🔐 Secure API key management using environment variables
+### 🔹 Backend
+- FastAPI (Python)
+- HTTPX
+- Pydantic
+- Python Dotenv
 
-🌐 Live project links
+### 🔹 Database
+- MongoDB (Chat storage + Resume data)
 
-📱 Fully responsive design
+### 🔹 AI
+- OpenRouter API (Mistral / Llama models)
 
-🛠 Tech Stack
-Frontend
+---
 
-React
+## 🔄 How It Works
 
-TypeScript
+1. User sends a message in chat.
+2. Backend reads resume data from MongoDB.
+3. Message + resume context is sent to OpenRouter API.
+4. AI generates a response.
+5. Response is saved in MongoDB.
+6. Reply is displayed in the UI.
 
-Vite
+---
 
-Tailwind CSS
+## 📂 Project Structure
 
-Axios
-
-Lucide Icons
-
-Backend
-
-FastAPI (Python)
-
-HTTPX
-
-Pydantic
-
-Python Dotenv
-
-Database
-
-MongoDB (Chat storage + Resume data)
-
-AI
-
-OpenRouter API (Mistral / Llama models)
-
-🏗 Project Architecture
-User → React Frontend → FastAPI Backend → MongoDB
-                                   ↓
-                               OpenRouter API
-How It Works
-
-User sends a message in chat.
-
-Backend reads resume data from MongoDB.
-
-Message + resume context is sent to OpenRouter.
-
-AI generates a response.
-
-Response is saved in MongoDB.
-
-Reply is displayed in the UI.
-
-📂 Project Structure
+```
 AI-RESUME-PORTFOLIO/
 │
 ├── backend/
@@ -92,126 +75,143 @@ AI-RESUME-PORTFOLIO/
 │   └── package.json
 │
 └── README.md
-⚙️ Setup Instructions
-🔹 Backend Setup
+```
 
-Go to backend folder:
+---
 
+## ⚙️ Setup Instructions
+
+### 🔹 Backend Setup
+
+```bash
 cd backend
+```
 
-Create virtual environment:
-
+```bash
 python -m venv venv
+```
 
-Activate environment:
-
-Windows
-
+#### Windows
+```bash
 venv\Scripts\activate
+```
 
-Mac/Linux
-
+#### Mac/Linux
+```bash
 source venv/bin/activate
+```
 
-Install dependencies:
-
+```bash
 pip install -r requirements.txt
+```
 
-Create a .env file inside backend:
+Create a `.env` file inside backend:
 
+```
 OPENROUTER_API_KEY=your_api_key_here
 MONGODB_URI=your_mongodb_connection_string
+```
 
 Run backend:
 
+```bash
 uvicorn main:app --reload
+```
 
 Backend runs on:
 
+```
 http://localhost:8000
-🔹 Frontend Setup
+```
 
-Go to frontend folder:
+---
 
+### 🔹 Frontend Setup
+
+```bash
 cd frontend
+```
 
-Install dependencies:
-
+```bash
 npm install
+```
 
-Run frontend:
-
+```bash
 npm run dev
+```
 
 Frontend runs on:
 
+```
 http://localhost:5173
-🌍 Deployment
-Frontend
+```
+
+---
+
+## 🌍 Deployment
+
+### 🔹 Frontend
 
 Deploy on:
-
-Vercel
-
-Netlify
+- Vercel
+- Netlify
 
 Set environment variable:
 
+```
 VITE_API_URL=https://your-backend-url.com
-Backend
+```
+
+---
+
+### 🔹 Backend
 
 Deploy on:
-
-Render
-
-Railway
+- Render
+- Railway
 
 Set environment variables:
 
+```
 OPENROUTER_API_KEY=your_key
 MONGODB_URI=your_mongodb_uri
-💾 MongoDB Collections
-Chat Collection
+```
 
+---
+
+## 💾 MongoDB Collections
+
+### 🔹 Chat Collection
 Stores:
+- user_message
+- ai_reply
+- timestamp
 
-user_message
-
-ai_reply
-
-timestamp
-
-Resume Collection
-
+### 🔹 Resume Collection
 Stores:
+- Education
+- Skills
+- Projects
+- Contact details
 
-Education
+---
 
-Skills
-
-Projects
-
-Contact details
-
-🎯 Purpose of the Project
+## 🎯 Purpose of the Project
 
 This project demonstrates:
 
-Full Stack Development
+- Full Stack Development
+- API Integration
+- Database Integration
+- AI Integration
+- Clean Architecture
+- Real-world Deployment Skills
 
-API Integration
+---
 
-Database Integration
+## 👨‍💻 Author
 
-AI Integration
-
-Clean Architecture
-
-Real-world Deployment Skills
-
-👨‍💻 Author
-
-Sujay M Mundaragi
-MCA Student | Full Stack Developer
+**Sujay M Mundaragi**  
+MCA Student | Full Stack Developer  
 
 Passionate about building scalable web applications and clean, user-friendly interfaces.
