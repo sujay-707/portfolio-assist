@@ -1,66 +1,217 @@
-# AI-Powered Portfolio Assistant
+🚀 AI Resume Portfolio Assistant
 
-A modern, professional portfolio built with React and FastAPI, featuring an AI Chat Assistant that answers questions specifically about the developer's resume using OpenRouter.
+A full-stack AI-powered portfolio website built using React, FastAPI, MongoDB, and OpenRouter API.
 
-## 🚀 Key Features
-- **AI Career Assistant**: Constraint-based AI (OpenRouter) that answers ONLY from resume data—zero hallucinations.
-- **Modern UI/UX**: Built with React, TypeScript, and Tailwind CSS.
-- **Interactive Projects**: Showcase of key engineering work with live links.
-- **Responsive Design**: Optimized for mobile and desktop screens.
-- **Clean Architecture**: Modular frontend and backend separation.
+This project includes a modern portfolio website with an AI assistant that answers questions strictly based on resume data stored in the database.
 
-## 🛠 Tech Stack
-- **Frontend**: React 18, Vite, TypeScript, Tailwind CSS, Lucide React, Axios.
-- **Backend**: FastAPI (Python), HTTPX, Pydantic, Python-Dotenv.
-- **AI**: OpenRouter API (Mistral/Llama models).
+🌟 Features
 
-## 📂 Project Structure
-```text
-ai-resume-portfolio/
-├── backend/            # FastAPI Server
-│   ├── main.py         # Entry point & AI logic
-│   ├── resume.txt      # Context for the AI
-│   └── .env            # Environment variables
-└── frontend/           # React Application
-    ├── src/
-    │   ├── components/ # Reusable UI pieces
-    │   └── App.tsx     # Main layout
-    └── tailwind.config.js
-```
+🤖 AI Chat Assistant (Resume-based responses only)
 
-## ⚙️ Setup Instructions
+💾 MongoDB database integration
 
-### 1. Backend Setup
-1. Navigate to `backend/`:
-   ```bash
-   cd backend
-   python -m venv venv
-   source venv/bin/activate  # atau .\venv\Scripts\activate di Windows
-   pip install -r requirements.txt
-   ```
-2. Create/Update `.env`:
-   ```env
-   OPENROUTER_API_KEY=your_key_here
-   ```
-3. Run the server:
-   ```bash
-   uvicorn main:app --reload
-   ```
+💬 Chat history storage with timestamps
 
-### 2. Frontend Setup
-1. Navigate to `frontend/`:
-   ```bash
-   cd frontend
-   npm install
-   ```
-2. Run the development server:
-   ```bash
-   npm run dev
-   ```
+🎨 Modern and responsive UI
 
-## 🌐 Deployment Guidelines
-- **Frontend**: Deploy to **Vercel** or **Netlify**. Ensure `VITE_API_URL` environment variable points to your live backend.
-- **Backend**: Deploy to **Render** or **Railway**. Set the `OPENROUTER_API_KEY` in the service environment variables.
+⚡ FastAPI backend
 
----
-Built as a premium engineering assignment. 🚀
+🔐 Secure API key management using environment variables
+
+🌐 Live project links
+
+📱 Fully responsive design
+
+🛠 Tech Stack
+Frontend
+
+React
+
+TypeScript
+
+Vite
+
+Tailwind CSS
+
+Axios
+
+Lucide Icons
+
+Backend
+
+FastAPI (Python)
+
+HTTPX
+
+Pydantic
+
+Python Dotenv
+
+Database
+
+MongoDB (Chat storage + Resume data)
+
+AI
+
+OpenRouter API (Mistral / Llama models)
+
+🏗 Project Architecture
+User → React Frontend → FastAPI Backend → MongoDB
+                                   ↓
+                               OpenRouter API
+How It Works
+
+User sends a message in chat.
+
+Backend reads resume data from MongoDB.
+
+Message + resume context is sent to OpenRouter.
+
+AI generates a response.
+
+Response is saved in MongoDB.
+
+Reply is displayed in the UI.
+
+📂 Project Structure
+AI-RESUME-PORTFOLIO/
+│
+├── backend/
+│   ├── main.py
+│   ├── resume.txt
+│   ├── requirements.txt
+│   └── .env
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   └── Chat.tsx
+│   │   ├── App.tsx
+│   │   └── main.tsx
+│   ├── public/
+│   └── package.json
+│
+└── README.md
+⚙️ Setup Instructions
+🔹 Backend Setup
+
+Go to backend folder:
+
+cd backend
+
+Create virtual environment:
+
+python -m venv venv
+
+Activate environment:
+
+Windows
+
+venv\Scripts\activate
+
+Mac/Linux
+
+source venv/bin/activate
+
+Install dependencies:
+
+pip install -r requirements.txt
+
+Create a .env file inside backend:
+
+OPENROUTER_API_KEY=your_api_key_here
+MONGODB_URI=your_mongodb_connection_string
+
+Run backend:
+
+uvicorn main:app --reload
+
+Backend runs on:
+
+http://localhost:8000
+🔹 Frontend Setup
+
+Go to frontend folder:
+
+cd frontend
+
+Install dependencies:
+
+npm install
+
+Run frontend:
+
+npm run dev
+
+Frontend runs on:
+
+http://localhost:5173
+🌍 Deployment
+Frontend
+
+Deploy on:
+
+Vercel
+
+Netlify
+
+Set environment variable:
+
+VITE_API_URL=https://your-backend-url.com
+Backend
+
+Deploy on:
+
+Render
+
+Railway
+
+Set environment variables:
+
+OPENROUTER_API_KEY=your_key
+MONGODB_URI=your_mongodb_uri
+💾 MongoDB Collections
+Chat Collection
+
+Stores:
+
+user_message
+
+ai_reply
+
+timestamp
+
+Resume Collection
+
+Stores:
+
+Education
+
+Skills
+
+Projects
+
+Contact details
+
+🎯 Purpose of the Project
+
+This project demonstrates:
+
+Full Stack Development
+
+API Integration
+
+Database Integration
+
+AI Integration
+
+Clean Architecture
+
+Real-world Deployment Skills
+
+👨‍💻 Author
+
+Sujay M Mundaragi
+MCA Student | Full Stack Developer
+
+Passionate about building scalable web applications and clean, user-friendly interfaces.
